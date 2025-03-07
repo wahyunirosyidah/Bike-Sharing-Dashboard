@@ -130,7 +130,6 @@ plt.figure(figsize=(10, 5))
 max_category = weather_category['mean'].idxmax()
 colors = ["blue" if cat == max_category else "gray" for cat in weather_category.index]
 sns.barplot(x=weather_category.index, y=weather_category['mean'], palette=colors)
-plt.title("Average Rentals by Windspeed", fontsize=14)
 plt.xlabel("Windspeed Category", fontsize=12)
 plt.ylabel("Average Rentals (Unit)", fontsize=12)
 plt.show()
