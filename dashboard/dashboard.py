@@ -115,7 +115,6 @@ plt.bar(season_avg_rentals['season_desc'],
 plt.title('Average Rentals by Season', fontsize=14)
 plt.xlabel('Season', fontsize=12)
 plt.ylabel('Average Rentals (Unit)', fontsize=12)
-
 st.pyplot(plt)
 
 
