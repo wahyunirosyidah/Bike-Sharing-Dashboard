@@ -51,13 +51,11 @@ def by_weather(df):
         else:
             return 'High'
 
-    df = df.copy()  
-    df['windspeed_category'] = df['windspeed'].apply(categorize_windspeed)
-    # Hitung statistik penyewaan berdasarkan kategori kecepatan angin
-    windspeed_stats = df.groupby('windspeed_category')['cnt'].agg(['mean', 'max', 'min', 'std'])
-    # Urutkan berdasarkan rata-rata jumlah penyewaan (mean)
+    hour_df['windspeed_category'] = hour_df['windspeed'].apply(categorize_windspeed)
+    windspeed_stats = hour_df.groupby('windspeed_category')['cnt'].agg(['mean', 'max', 'min', 'std'])
     windspeed_stats = windspeed_stats.sort_values(by='mean', ascending=False)
     return windspeed_stats
+
 
 
 
@@ -127,11 +125,9 @@ st.pyplot(plt)
 
 weather_category=by_weather(hour_df)
 plt.figure(figsize=(10, 5))
-max_category = windspeed_stats['mean'].idxmax()
-colors = ["blue" if cat == max_category else "gray" for cat in windspeed_stats.index]
-
-sns.barplot(x=windspeed_stats.index, y=windspeed_stats['mean'], palette=colors)
-
+max_category = weather_category['mean'].idxmax()
+colors = ["blue" if cat == max_category else "gray" for cat in weather_category.index]
+sns.barplot(x=weather_category.index, y=weather_category['mean'], palette=colors)
 plt.title("Average Rentals by Windspeed", fontsize=14)
 plt.xlabel("Windspeed Category", fontsize=12)
 plt.ylabel("Average Rentals (Unit)", fontsize=12)
