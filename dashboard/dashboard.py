@@ -116,7 +116,7 @@ for i, metric in enumerate(metrics):
     colors = ['gray' if cat != max_category else 'blue' for cat in category_stats['Category']]
     sns.barplot(data=category_stats, x='Category', y=metric, ax=ax[i], palette=colors)
     ax[i].set_title(titles[i])
-    ax[i].set_ylabel('Number of Rentals')
+    ax[i].set_ylabel('Number of Rentals (Unit)')
     ax[i].set_xlabel('')
     ax[i].tick_params(axis='x', rotation=45)
     
@@ -125,6 +125,7 @@ st.pyplot(plt)
 
 
 weather_category=by_weather(hour_df)
+st.subheader('Average Rentals by Windspeed')
 plt.figure(figsize=(10, 5))
 max_category = weather_category['mean'].idxmax()
 colors = ["blue" if cat == max_category else "gray" for cat in weather_category.index]
