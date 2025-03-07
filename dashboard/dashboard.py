@@ -145,6 +145,7 @@ st.pyplot(plt)
 
 #by time category
 time_category=by_timecategory(hour_df)
+st.subheader('Bike Rentals by Time Category')
 plt.figure(figsize=(10, 6))
 
 max_value = time_category['cnt'].max()
@@ -155,7 +156,6 @@ bar_plot = sns.barplot(x='time_bin',
                        data=time_category, 
                        palette=colors)
 
-plt.title('Bike Rentals by Time Category')
 plt.xlabel('Time Category')
 plt.ylabel('Number of Rentals (Unit)')
 
