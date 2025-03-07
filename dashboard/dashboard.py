@@ -49,8 +49,8 @@ def by_season(df):
 
 
 # Load Data
-day_df = pd.read_csv("day.csv")
-hour_df = pd.read_csv("hour.csv")
+day_df = pd.read_csv("dashboard/day.csv")
+hour_df = pd.read_csv("dashboard/hour.csv")
 
 st.header('Bike Rentals Dashboard :bike:')
 
