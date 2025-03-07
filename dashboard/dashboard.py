@@ -9,11 +9,6 @@ def rentals_total(df):
     total_all = df['cnt'].sum()
     return total_all
 
-def by_membership(df):
-    total_casual = df['casual'].sum()
-    total_registered = df['registered'].sum()
-    return total_casual, total_registered
-
 def day_category(df):
     df['Category'] = df.apply(lambda x: 
                                   'Working Day' if x['workingday'] == 1 else 
@@ -46,6 +41,21 @@ def by_season(df):
     season_avg_rentals = df.groupby('season')['cnt'].mean().reset_index()
     season_avg_rentals['season_desc'] = season_avg_rentals['season'].map(season_conditions)
     return season_avg_rentals
+
+def by_weather(df):
+    def categorize_windspeed(wind):
+        if wind < 0.25:
+            return 'Low'
+        elif wind < 0.40:
+            return 'Medium'
+        else:
+            return 'High'
+
+    hour_df['windspeed_category'] = hour_df['windspeed'].apply(categorize_windspeed)
+    windspeed_stats = hour_df.groupby('windspeed_category')['cnt'].agg(['mean', 'max', 'min', 'std'])
+    windspeed_stats = windspeed_stats.sort_values(by='mean', ascending=False)
+    return windspeed_stats
+
 
 
 # Load Data
@@ -108,20 +118,18 @@ for i, metric in enumerate(metrics):
     ax[i].set_xlabel('')
     
 plt.tight_layout()
+st.pyplot(plt)
+
+
+weather_category=by_weather(hour_df)
+plt.figure(figsize=(10, 5))
+max_category = windspeed_stats['mean'].idxmax()
+colors = ["blue" if cat == max_category else "gray" for cat in windspeed_stats.index]
+
+sns.barplot(x=windspeed_stats.index, y=windspeed_stats['mean'], palette=colors)
+
+plt.title("Average Rentals by Windspeed", fontsize=14)
+plt.xlabel("Windspeed Category", fontsize=12)
+plt.ylabel("Average Rentals (Unit)", fontsize=12)
 plt.show()
-
-#By Membership
-total_casual, total_registered = by_membership(day_df)
-st.subheader('User Category by Membership')
-plt.figure(figsize=(7, 7))
-plt.pie([total_casual, total_registered], 
-        labels=['Casual Users', 'Registered Users'], 
-        autopct='%1.1f%%', 
-        colors=['red', 'blue'], 
-        startangle=90, 
-        explode=(0.05, 0),
-        textprops={'fontsize': 14}  
-)
-
-plt.title("Casual vs. Registered Users", fontsize=16)
 st.pyplot(plt)
