@@ -148,16 +148,19 @@ time_category=by_timecategory(hour_df)
 st.subheader('Bike Rentals by Time Category')
 plt.figure(figsize=(10, 6))
 
-max_value = time_category['cnt'].max()
-colors = ['blue' if x == max_value else 'gray' for x in time_category['cnt']]
+max_index = time_category['cnt'].idxmax()  
+
+colors = ['blue' if i == max_index else 'gray' for i in range(len(time_category))]
 
 bar_plot = sns.barplot(x='time_bin', 
                        y='cnt', 
                        data=time_category, 
                        palette=colors)
 
+plt.title('Bike Rentals by Time Category')
 plt.xlabel('Time Category')
 plt.ylabel('Number of Rentals (Unit)')
 
-plt.ticklabel_format(style='plain', axis='y')  
+plt.ticklabel_format(style='plain', axis='y')
+
 st.pyplot(plt)
