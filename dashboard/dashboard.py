@@ -56,6 +56,17 @@ def by_weather(df):
     windspeed_stats = windspeed_stats.sort_values(by='mean', ascending=False)
     return windspeed_stats
 
+#by Time Category
+def by_timecategory(df):
+    
+    batas = [0, 5, 11, 15, 19, 23]  
+    labels = ['Dini Hari', 'Pagi', 'Siang', 'Sore', 'Malam']
+
+    hour_df['time_bin'] = pd.cut(hour_df['hr'], bins=batas, labels=labels, include_lowest=True)
+    time_category = hour_df.groupby('time_bin')['cnt'].sum().reset_index()
+    time_category = time_category.sort_values(by='cnt', ascending=False)
+
+    return time_category
 
 
 
@@ -100,8 +111,6 @@ plt.bar(season_avg_rentals['season_desc'],
 
 plt.xlabel('Season', fontsize=12)
 plt.ylabel('Average Rentals (Unit)', fontsize=12)
-
-plt.show()
 st.pyplot(plt)
 
 
@@ -132,5 +141,23 @@ colors = ["blue" if cat == max_category else "gray" for cat in weather_category.
 sns.barplot(x=weather_category.index, y=weather_category['mean'], palette=colors)
 plt.xlabel("Windspeed Category", fontsize=12)
 plt.ylabel("Average Rentals (Unit)", fontsize=12)
-plt.show()
+st.pyplot(plt)
+
+#by time category
+time_category=by_timecategory(hour_df)
+plt.figure(figsize=(10, 6))
+
+max_value = time_category['cnt'].max()
+colors = ['blue' if x == max_value else 'gray' for x in time_category['cnt']]
+
+bar_plot = sns.barplot(x='time_bin', 
+                       y='cnt', 
+                       data=time_category, 
+                       palette=colors)
+
+plt.title('Bike Rentals by Time Category')
+plt.xlabel('Time Category')
+plt.ylabel('Number of Rentals (Unit)')
+
+plt.ticklabel_format(style='plain', axis='y')  
 st.pyplot(plt)
