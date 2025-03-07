@@ -99,16 +99,16 @@ st.subheader('Working Day, Holiday, Non-Working Non-Holiday')
 fig, ax = plt.subplots(1, 3, figsize=(15, 5))
 metrics = ['max', 'min', 'mean']
 titles = ['Maximum Rentals', 'Minimum Rentals', 'Average Rentals']
-
 for i, metric in enumerate(metrics):
-    sns.barplot(data=category_stats, x='Category', y=metric, ax=ax[i], hue='Category', palette=['blue', 'gray', 'red'])
-    ax[i].set_title(titles[i], fontsize=18)
-    ax[i].set_ylabel('Number of Rentals (Unit)')
+    max_category = category_stats.loc[category_stats[metric].idxmax(), 'Category']
+    colors = ['gray' if cat != max_category else 'blue' for cat in category_stats['Category']]
+    sns.barplot(data=category_stats, x='Category', y=metric, ax=ax[i], palette=colors)
+    ax[i].set_title(titles[i])
+    ax[i].set_ylabel('Number of Rentals')
     ax[i].set_xlabel('')
-    ax[i].tick_params(axis='x', rotation=45)
     
 plt.tight_layout()
-st.pyplot(plt)
+plt.show()
 
 #By Membership
 total_casual, total_registered = by_membership(day_df)
