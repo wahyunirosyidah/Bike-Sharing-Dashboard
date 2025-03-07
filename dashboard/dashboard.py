@@ -105,12 +105,17 @@ st.pyplot(plt)
 season_avg_rentals=by_season(hour_df)
 st.subheader('Average Rentals by Season')
 plt.figure(figsize=(12, 7))
+max_value = season_avg_rentals['cnt'].max()
+colors = ['blue' if x == max_value else 'gray' for x in season_avg_rentals['cnt']]
+
 plt.bar(season_avg_rentals['season_desc'], 
         season_avg_rentals['cnt'], 
-        color=['blue'])
+        color=colors)
 
+plt.title('Average Rentals by Season', fontsize=14)
 plt.xlabel('Season', fontsize=12)
 plt.ylabel('Average Rentals (Unit)', fontsize=12)
+
 st.pyplot(plt)
 
 
