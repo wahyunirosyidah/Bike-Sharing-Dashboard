@@ -60,25 +60,9 @@ total_all = total
 st.metric("Total Bike Rentals", value=total_all)
 
 # Sidebar
-datetime_columns = ["dteday"]
-day_df.sort_values(by="dteday", inplace=True)
-day_df.reset_index(inplace=True)
- 
-for column in datetime_columns:
-    day_df[column] = pd.to_datetime(day_df[column])
-
-#Membuat Komponen Filter
-min_date = day_df["dteday"].min()
-max_date = day_df["dteday"].max()
- 
 with st.sidebar:
     st.image("https://raw.githubusercontent.com/wahyunirosyidah/submission/main/dashboard/image.png")
     st.title("Everywhere, We Gowes!")
-    start_date, end_date = st.date_input(
-        label='Rentang Waktu',min_value=min_date,
-        max_value=max_date,
-        value=[min_date, max_date]
-    )
 
     st.caption('Copyright © Wahyuni Fajrin Rosyidah 2025')
 
