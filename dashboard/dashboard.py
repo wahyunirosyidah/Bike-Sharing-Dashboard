@@ -123,7 +123,7 @@ for i, metric in enumerate(metrics):
 plt.tight_layout()
 st.pyplot(plt)
 
-
+#by Windspeed
 weather_category=by_weather(hour_df)
 st.subheader('Average Rentals by Windspeed')
 plt.figure(figsize=(10, 5))
