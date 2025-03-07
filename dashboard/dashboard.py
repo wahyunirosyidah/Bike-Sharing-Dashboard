@@ -51,10 +51,14 @@ def by_weather(df):
         else:
             return 'High'
 
-    hour_df['windspeed_category'] = hour_df['windspeed'].apply(categorize_windspeed)
-    windspeed_stats = hour_df.groupby('windspeed_category')['cnt'].agg(['mean', 'max', 'min', 'std'])
+    df = df.copy()  
+    df['windspeed_category'] = df['windspeed'].apply(categorize_windspeed)
+    # Hitung statistik penyewaan berdasarkan kategori kecepatan angin
+    windspeed_stats = df.groupby('windspeed_category')['cnt'].agg(['mean', 'max', 'min', 'std'])
+    # Urutkan berdasarkan rata-rata jumlah penyewaan (mean)
     windspeed_stats = windspeed_stats.sort_values(by='mean', ascending=False)
     return windspeed_stats
+
 
 
 
