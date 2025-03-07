@@ -121,7 +121,8 @@ for i, metric in enumerate(metrics):
     ax[i].set_title(titles[i], fontsize=18)
     ax[i].set_ylabel('Number of Rentals (Unit)')
     ax[i].set_xlabel('')
-   
+    ax[i].tick_params(axis='x', rotation=45)
+    
 plt.tight_layout()
 st.pyplot(plt)
 
