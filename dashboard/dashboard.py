@@ -91,13 +91,14 @@ with st.sidebar:
     )
     
     # Filter berdasarkan musim (season)
-    season_options = {1: "Spring", 2: "Summer", 3: "Fall", 4: "Winter"}
+    season_options = {1: "Spring", 2: "Summer", 3: "Fall", 4: "Winter", 5:"All"}
     selected_season = st.selectbox("Pilih Musim", options=season_options.keys(), format_func=lambda x: season_options[x])
 
-# Filter data berdasarkan rentang tanggal dan musim
-filtered_day_df = day_df[(day_df["dteday"] >= pd.to_datetime(start_date)) & 
-                         (day_df["dteday"] <= pd.to_datetime(end_date)) & 
-                         (day_df["season"] == selected_season)]
+filtered_day_df = day_df[
+    (day_df["dteday"] >= pd.to_datetime(start_date)) & 
+    (day_df["dteday"] <= pd.to_datetime(end_date)) & 
+    ((day_df["season"] == selected_season) if selected_season != 5 else True)
+]
 
 # Filter hour_df agar hanya mengambil data dari hari yang ada di filtered_day_df
 filtered_hour_df = hour_df[hour_df["instant"].isin(filtered_day_df["instant"])]
@@ -187,19 +188,6 @@ plt.ylabel('Number of Rentals (Unit)')
 plt.ticklabel_format(style='plain', axis='y')
 
 st.pyplot(plt)
-
-# By Season
-# season_avg_rentals=by_season(filtered_day_df)
-# st.subheader('Average Rentals by Season')
-# season_avg_rentals = day_df.groupby('season')['cnt'].mean().reset_index()
-# season_avg_rentals['season_desc'] = season_avg_rentals['season'].map(season_options)
-# plt.figure(figsize=(12, 7))
-# max_value = season_avg_rentals['cnt'].max()
-# colors = ['blue' if x == max_value else 'gray' for x in season_avg_rentals['cnt']]
-# plt.bar(season_avg_rentals['season_desc'], season_avg_rentals['cnt'], color=colors)
-# plt.xlabel('Season')
-# plt.ylabel('Average Rentals (Unit)')
-# st.pyplot(plt)
 
 # By Season
 st.subheader('Average Rentals by Season')
