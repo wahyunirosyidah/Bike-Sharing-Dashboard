@@ -122,120 +122,75 @@ plt.figure(figsize=(12, 6))
 sns.barplot(x="hr", y="cnt", hue="Category", data=hourly_rentals, 
             palette={"Peak Hour": "blue", "Off-Peak Hour": "red", "Normal Hour": "gray"})
 plt.xlabel("Hour")
-plt.ylabel("Number of Rentals")
+plt.ylabel("Number of Rentals (Unit)")
 plt.xticks(range(0, 24))
 plt.legend(title="Category")
 st.pyplot(plt)
 
+# By Season
+season_avg_rentals=by_season(hour_df)
+st.subheader('Average Rentals by Season')
+plt.figure(figsize=(12, 7))
+max_value = season_avg_rentals['cnt'].max()
+colors = ['blue' if x == max_value else 'gray' for x in season_avg_rentals['cnt']]
 
-# st.header('Bike Rentals Dashboard :bike:')
+plt.bar(season_avg_rentals['season_desc'], 
+        season_avg_rentals['cnt'], 
+        color=colors)
 
-# #Total Bike Rentals
-# total = rentals_total(day_df)
-# total_all = total
-# st.metric("Total Bike Rentals", value=total_all)
-
-# # Konversi kolom tanggal
-# day_df["dteday"] = pd.to_datetime(day_df["dteday"])
-
-# # Sidebar - Filter Rentang Waktu
-# min_date = day_df["dteday"].min()
-# max_date = day_df["dteday"].max()
+plt.title('Average Rentals by Season', fontsize=14)
+plt.xlabel('Season', fontsize=12)
+plt.ylabel('Average Rentals (Unit)', fontsize=12)
+st.pyplot(plt)
 
 
-# # Sidebar
-# with st.sidebar:
-#     st.image("https://raw.githubusercontent.com/wahyunirosyidah/submission/main/dashboard/image.png")
-#     st.title("Everywhere, We Gowes!")
-#     start_date, end_date = st.date_input(
-#         label='Rentang Waktu',
-#         min_value=min_date,
-#         max_value=max_date,
-#         value=[min_date, max_date]
-#     )
+#Working Day, Holiday, Non-Working Non-Holiday
+category_stats = day_category(day_df)
+st.subheader('Working Day, Holiday, Non-Working Non-Holiday')
+fig, ax = plt.subplots(1, 3, figsize=(15, 5))
+metrics = ['max', 'min', 'mean']
+titles = ['Maximum Rentals', 'Minimum Rentals', 'Average Rentals']
+for i, metric in enumerate(metrics):
+    max_category = category_stats.loc[category_stats[metric].idxmax(), 'Category']
+    colors = ['gray' if cat != max_category else 'blue' for cat in category_stats['Category']]
+    sns.barplot(data=category_stats, x='Category', y=metric, ax=ax[i], palette=colors)
+    ax[i].set_title(titles[i])
+    ax[i].set_ylabel('Number of Rentals (Unit)')
+    ax[i].set_xlabel('')
+    ax[i].tick_params(axis='x', rotation=45)
     
-#     st.caption('Copyright © Wahyuni Fajrin Rosyidah 2025')
+plt.tight_layout()
+st.pyplot(plt)
 
-# # Filter Data
-# filtered_df = day_df[(day_df["dteday"] >= pd.to_datetime(start_date)) & (day_df["dteday"] <= pd.to_datetime(end_date))]
+#by Windspeed
+weather_category=by_weather(hour_df)
+st.subheader('Average Rentals by Windspeed')
+plt.figure(figsize=(10, 5))
+max_category = weather_category['mean'].idxmax()
+colors = ["blue" if cat == max_category else "gray" for cat in weather_category.index]
+sns.barplot(x=weather_category.index, y=weather_category['mean'], palette=colors)
+plt.xlabel("Windspeed Category", fontsize=12)
+plt.ylabel("Average Rentals (Unit)", fontsize=12)
+st.pyplot(plt)
 
+#by time category
+time_category=by_timecategory(hour_df)
+st.subheader('Bike Rentals by Time Category')
+plt.figure(figsize=(10, 6))
 
-# #Peak Hours vs Off-Peak Hours
-# hourly_rentals = peak_hours(hour_df)
-# st.subheader('Peak vs. Off-Peak Hours')
-# plt.figure(figsize=(12, 6))
-# sns.barplot(x="hr", y="cnt", hue="Category", data=hourly_rentals, palette={"Peak Hour": "blue", "Off-Peak Hour": "red", "Normal Hour": "gray"})
-# plt.xlabel("Hour")
-# plt.ylabel("Number of Rentals")
-# plt.xticks(range(0, 24))
-# plt.legend(title="Category")
-# st.pyplot(plt)
+max_index = time_category['cnt'].idxmax()  
 
+colors = ['blue' if i == max_index else 'gray' for i in range(len(time_category))]
 
-# # By Season
-# season_avg_rentals=by_season(hour_df)
-# st.subheader('Average Rentals by Season')
-# plt.figure(figsize=(12, 7))
-# max_value = season_avg_rentals['cnt'].max()
-# colors = ['blue' if x == max_value else 'gray' for x in season_avg_rentals['cnt']]
+bar_plot = sns.barplot(x='time_bin', 
+                       y='cnt', 
+                       data=time_category, 
+                       palette=colors)
 
-# plt.bar(season_avg_rentals['season_desc'], 
-#         season_avg_rentals['cnt'], 
-#         color=colors)
+plt.title('Bike Rentals by Time Category')
+plt.xlabel('Time Category')
+plt.ylabel('Number of Rentals (Unit)')
 
-# plt.title('Average Rentals by Season', fontsize=14)
-# plt.xlabel('Season', fontsize=12)
-# plt.ylabel('Average Rentals (Unit)', fontsize=12)
-# st.pyplot(plt)
+plt.ticklabel_format(style='plain', axis='y')
 
-
-# #Working Day, Holiday, Non-Working Non-Holiday
-# category_stats = day_category(day_df)
-# st.subheader('Working Day, Holiday, Non-Working Non-Holiday')
-# fig, ax = plt.subplots(1, 3, figsize=(15, 5))
-# metrics = ['max', 'min', 'mean']
-# titles = ['Maximum Rentals', 'Minimum Rentals', 'Average Rentals']
-# for i, metric in enumerate(metrics):
-#     max_category = category_stats.loc[category_stats[metric].idxmax(), 'Category']
-#     colors = ['gray' if cat != max_category else 'blue' for cat in category_stats['Category']]
-#     sns.barplot(data=category_stats, x='Category', y=metric, ax=ax[i], palette=colors)
-#     ax[i].set_title(titles[i])
-#     ax[i].set_ylabel('Number of Rentals (Unit)')
-#     ax[i].set_xlabel('')
-#     ax[i].tick_params(axis='x', rotation=45)
-    
-# plt.tight_layout()
-# st.pyplot(plt)
-
-# #by Windspeed
-# weather_category=by_weather(hour_df)
-# st.subheader('Average Rentals by Windspeed')
-# plt.figure(figsize=(10, 5))
-# max_category = weather_category['mean'].idxmax()
-# colors = ["blue" if cat == max_category else "gray" for cat in weather_category.index]
-# sns.barplot(x=weather_category.index, y=weather_category['mean'], palette=colors)
-# plt.xlabel("Windspeed Category", fontsize=12)
-# plt.ylabel("Average Rentals (Unit)", fontsize=12)
-# st.pyplot(plt)
-
-# #by time category
-# time_category=by_timecategory(hour_df)
-# st.subheader('Bike Rentals by Time Category')
-# plt.figure(figsize=(10, 6))
-
-# max_index = time_category['cnt'].idxmax()  
-
-# colors = ['blue' if i == max_index else 'gray' for i in range(len(time_category))]
-
-# bar_plot = sns.barplot(x='time_bin', 
-#                        y='cnt', 
-#                        data=time_category, 
-#                        palette=colors)
-
-# plt.title('Bike Rentals by Time Category')
-# plt.xlabel('Time Category')
-# plt.ylabel('Number of Rentals (Unit)')
-
-# plt.ticklabel_format(style='plain', axis='y')
-
-# st.pyplot(plt)
+st.pyplot(plt)
