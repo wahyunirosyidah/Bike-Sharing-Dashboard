@@ -134,7 +134,7 @@ plt.legend(title="Category")
 st.pyplot(plt)
 
 # By Season
-season_avg_rentals=by_season(filtered_hour_df)
+season_avg_rentals=by_season(filtered_day_df)
 st.subheader('Average Rentals by Season')
 season_avg_rentals = day_df.groupby('season')['cnt'].mean().reset_index()
 season_avg_rentals['season_desc'] = season_avg_rentals['season'].map(season_options)
