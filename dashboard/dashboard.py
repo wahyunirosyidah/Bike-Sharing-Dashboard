@@ -94,13 +94,13 @@ with st.sidebar:
     season_options = {1: "Spring", 2: "Summer", 3: "Fall", 4: "Winter"}
     selected_season = st.selectbox("Pilih Musim", options=season_options.keys(), format_func=lambda x: season_options[x])
 
-# Filter data berdasarkan rentang tanggal
-filtered_day_df = day_df[(day_df["dteday"] >= pd.to_datetime(start_date)) & (day_df["dteday"] <= pd.to_datetime(end_date))]
-filtered_hour_df = hour_df.merge(filtered_day_df[['dteday', 'instant']], on='instant')
-# Filter berdasarkan musim
-filtered_day_df = day_df[day_df["season"] == selected_season]
-filtered_hour_df = hour_df.merge(day_df[['dteday', 'instant']], on='instant')
+# Filter data berdasarkan rentang tanggal dan musim
+filtered_day_df = day_df[(day_df["dteday"] >= pd.to_datetime(start_date)) & 
+                         (day_df["dteday"] <= pd.to_datetime(end_date)) & 
+                         (day_df["season"] == selected_season)]
 
+# Filter hour_df agar hanya mengambil data dari hari yang ada di filtered_day_df
+filtered_hour_df = hour_df[hour_df["instant"].isin(filtered_day_df["instant"])]
 
 # Fungsi untuk menghitung total rentals
 def rentals_total(df):
