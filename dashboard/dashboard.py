@@ -134,7 +134,7 @@ plt.legend(title="Category")
 st.pyplot(plt)
 
 # By Season
-season_avg_rentals=by_season(hour_df)
+season_avg_rentals=by_season(filtered_hour_df)
 st.subheader('Average Rentals by Season')
 season_avg_rentals = day_df.groupby('season')['cnt'].mean().reset_index()
 season_avg_rentals['season_desc'] = season_avg_rentals['season'].map(season_options)
@@ -149,7 +149,7 @@ st.pyplot(plt)
 
 
 #Working Day, Holiday, Non-Working Non-Holiday
-category_stats = day_category(day_df)
+category_stats = day_category(filtered_day_df)
 st.subheader('Working Day, Holiday, Non-Working Non-Holiday')
 fig, ax = plt.subplots(1, 3, figsize=(15, 5))
 metrics = ['max', 'min', 'mean']
@@ -167,7 +167,7 @@ plt.tight_layout()
 st.pyplot(plt)
 
 #by Windspeed
-weather_category=by_weather(hour_df)
+weather_category=by_weather(filtered_hour_df)
 st.subheader('Average Rentals by Windspeed')
 plt.figure(figsize=(10, 5))
 max_category = weather_category['mean'].idxmax()
@@ -178,7 +178,7 @@ plt.ylabel("Average Rentals (Unit)", fontsize=12)
 st.pyplot(plt)
 
 #by time category
-time_category=by_timecategory(hour_df)
+time_category=by_timecategory(filtered_hour_df)
 st.subheader('Bike Rentals by Time Category')
 plt.figure(figsize=(10, 6))
 
