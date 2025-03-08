@@ -51,8 +51,8 @@ def by_weather(df):
         else:
             return 'High'
 
-    hour_df['windspeed_category'] = hour_df['windspeed'].apply(categorize_windspeed)
-    windspeed_stats = hour_df.groupby('windspeed_category')['cnt'].agg(['mean', 'max', 'min', 'std'])
+    df['windspeed_category'] = df['windspeed'].apply(categorize_windspeed)
+    windspeed_stats = df.groupby('windspeed_category')['cnt'].agg(['mean', 'max', 'min', 'std'])
     windspeed_stats = windspeed_stats.sort_values(by='mean', ascending=False)
     return windspeed_stats
 
@@ -62,8 +62,8 @@ def by_timecategory(df):
     batas = [0, 5, 11, 15, 19, 23]  
     labels = ['Dini Hari', 'Pagi', 'Siang', 'Sore', 'Malam']
 
-    hour_df['time_bin'] = pd.cut(hour_df['hr'], bins=batas, labels=labels, include_lowest=True)
-    time_category = hour_df.groupby('time_bin')['cnt'].sum().reset_index()
+    df['time_bin'] = pd.cut(df['hr'], bins=batas, labels=labels, include_lowest=True)
+    time_category = df.groupby('time_bin')['cnt'].sum().reset_index()
     time_category = time_category.sort_values(by='cnt', ascending=False)
 
     return time_category
