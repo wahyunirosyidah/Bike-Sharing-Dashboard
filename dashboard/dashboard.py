@@ -56,7 +56,6 @@ def by_weather(df):
     windspeed_stats = windspeed_stats.sort_values(by='mean', ascending=False)
     return windspeed_stats
 
-#by Time Category
 def by_timecategory(df):
     
     batas = [0, 5, 11, 15, 19, 23]  
@@ -73,7 +72,6 @@ def by_timecategory(df):
 day_df = pd.read_csv("dashboard/day.csv")
 hour_df = pd.read_csv("dashboard/hour.csv")
 
-# Convert 'dteday' to datetime
 day_df["dteday"] = pd.to_datetime(day_df["dteday"])
 
 # Sidebar
@@ -100,10 +98,8 @@ filtered_day_df = day_df[
     ((day_df["season"] == selected_season) if selected_season != 5 else True)
 ]
 
-# Filter hour_df agar hanya mengambil data dari hari yang ada di filtered_day_df
 filtered_hour_df = hour_df[hour_df["instant"].isin(filtered_day_df["instant"])]
 
-# Fungsi untuk menghitung total rentals
 def rentals_total(df):
     return df['cnt'].sum()
 
@@ -133,10 +129,6 @@ plt.ylabel("Number of Rentals (Unit)")
 plt.xticks(range(0, 24))
 plt.legend(title="Category")
 st.pyplot(plt)
-
-
-
-
 
 #Working Day, Holiday, Non-Working Non-Holiday
 category_stats = day_category(filtered_day_df)
