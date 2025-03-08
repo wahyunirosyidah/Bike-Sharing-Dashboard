@@ -82,38 +82,30 @@ total = rentals_total(day_df)
 total_all = total
 st.metric("Total Bike Rentals", value=total_all)
 
+# Konversi kolom tanggal
+day_df["dteday"] = pd.to_datetime(day_df["dteday"])
+
+# Sidebar - Filter Rentang Waktu
+min_date = day_df["dteday"].min()
+max_date = day_df["dteday"].max()
+
+
 # Sidebar
 with st.sidebar:
     st.image("https://raw.githubusercontent.com/wahyunirosyidah/submission/main/dashboard/image.png")
     st.title("Everywhere, We Gowes!")
-
-    # Konversi tanggal ke format datetime
-day_df['dteday'] = pd.to_datetime(day_df['dteday'])
-
-# Sidebar untuk interaksi
-with st.sidebar:
-    st.image("https://raw.githubusercontent.com/wahyunirosyidah/submission/main/dashboard/image.png")
-    st.title("Everywhere, We Gowes!")
-    
-    # Filter Berdasarkan Tanggal
-    st.subheader("Filter Berdasarkan Tanggal")
-    min_date = day_df['dteday'].min()
-    max_date = day_df['dteday'].max()
-    date_range = st.date_input("Pilih Rentang Tanggal", [min_date, max_date], min_value=min_date, max_value=max_date)
-    
-    # Filter Berdasarkan Musim (Season)
-    st.subheader("Filter Berdasarkan Musim")
-    season_options = {1: 'Spring', 2: 'Summer', 3: 'Fall', 4: 'Winter'}
-    selected_season = st.selectbox("Pilih Musim", options=list(season_options.keys()), format_func=lambda x: season_options[x])
-
-    # Terapkan Filter ke Data
-    filtered_df = day_df[
-        (day_df['dteday'] >= pd.to_datetime(date_range[0])) & 
-        (day_df['dteday'] <= pd.to_datetime(date_range[1])) & 
-        (day_df['season'] == selected_season)
-    ]
+    start_date, end_date = st.date_input(
+        label='Rentang Waktu',
+        min_value=min_date,
+        max_value=max_date,
+        value=[min_date, max_date]
+    )
     
     st.caption('Copyright © Wahyuni Fajrin Rosyidah 2025')
+
+# Filter Data
+filtered_df = day_df[(day_df["dteday"] >= pd.to_datetime(start_date)) & (day_df["dteday"] <= pd.to_datetime(end_date))]
+
 
 #Peak Hours vs Off-Peak Hours
 hourly_rentals = peak_hours(hour_df)
