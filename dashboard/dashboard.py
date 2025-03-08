@@ -69,8 +69,6 @@ def by_timecategory(df):
     return time_category
 
 
-
-
 # Load Data
 day_df = pd.read_csv("dashboard/day.csv")
 hour_df = pd.read_csv("dashboard/hour.csv")
@@ -91,10 +89,18 @@ with st.sidebar:
         max_value=max_date,
         value=[min_date, max_date]
     )
+    
+    # Filter berdasarkan musim (season)
+    season_options = {1: "Spring", 2: "Summer", 3: "Fall", 4: "Winter"}
+    selected_season = st.selectbox("Pilih Musim", options=season_options.keys(), format_func=lambda x: season_options[x])
 
 # Filter data berdasarkan rentang tanggal
 filtered_day_df = day_df[(day_df["dteday"] >= pd.to_datetime(start_date)) & (day_df["dteday"] <= pd.to_datetime(end_date))]
 filtered_hour_df = hour_df.merge(filtered_day_df[['dteday', 'instant']], on='instant')
+# Filter berdasarkan musim
+filtered_day_df = day_df[day_df["season"] == selected_season]
+filtered_hour_df = hour_df.merge(day_df[['dteday', 'instant']], on='instant')
+
 
 # Fungsi untuk menghitung total rentals
 def rentals_total(df):
@@ -130,18 +136,16 @@ st.pyplot(plt)
 # By Season
 season_avg_rentals=by_season(hour_df)
 st.subheader('Average Rentals by Season')
+season_avg_rentals = day_df.groupby('season')['cnt'].mean().reset_index()
+season_avg_rentals['season_desc'] = season_avg_rentals['season'].map(season_options)
 plt.figure(figsize=(12, 7))
 max_value = season_avg_rentals['cnt'].max()
 colors = ['blue' if x == max_value else 'gray' for x in season_avg_rentals['cnt']]
-
-plt.bar(season_avg_rentals['season_desc'], 
-        season_avg_rentals['cnt'], 
-        color=colors)
-
-plt.title('Average Rentals by Season', fontsize=14)
-plt.xlabel('Season', fontsize=12)
-plt.ylabel('Average Rentals (Unit)', fontsize=12)
+plt.bar(season_avg_rentals['season_desc'], season_avg_rentals['cnt'], color=colors)
+plt.xlabel('Season')
+plt.ylabel('Average Rentals (Unit)')
 st.pyplot(plt)
+
 
 
 #Working Day, Holiday, Non-Working Non-Holiday
