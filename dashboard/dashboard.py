@@ -133,18 +133,7 @@ plt.xticks(range(0, 24))
 plt.legend(title="Category")
 st.pyplot(plt)
 
-# By Season
-season_avg_rentals=by_season(filtered_day_df)
-st.subheader('Average Rentals by Season')
-season_avg_rentals = day_df.groupby('season')['cnt'].mean().reset_index()
-season_avg_rentals['season_desc'] = season_avg_rentals['season'].map(season_options)
-plt.figure(figsize=(12, 7))
-max_value = season_avg_rentals['cnt'].max()
-colors = ['blue' if x == max_value else 'gray' for x in season_avg_rentals['cnt']]
-plt.bar(season_avg_rentals['season_desc'], season_avg_rentals['cnt'], color=colors)
-plt.xlabel('Season')
-plt.ylabel('Average Rentals (Unit)')
-st.pyplot(plt)
+
 
 
 
@@ -197,4 +186,30 @@ plt.ylabel('Number of Rentals (Unit)')
 
 plt.ticklabel_format(style='plain', axis='y')
 
+st.pyplot(plt)
+
+# By Season
+# season_avg_rentals=by_season(filtered_day_df)
+# st.subheader('Average Rentals by Season')
+# season_avg_rentals = day_df.groupby('season')['cnt'].mean().reset_index()
+# season_avg_rentals['season_desc'] = season_avg_rentals['season'].map(season_options)
+# plt.figure(figsize=(12, 7))
+# max_value = season_avg_rentals['cnt'].max()
+# colors = ['blue' if x == max_value else 'gray' for x in season_avg_rentals['cnt']]
+# plt.bar(season_avg_rentals['season_desc'], season_avg_rentals['cnt'], color=colors)
+# plt.xlabel('Season')
+# plt.ylabel('Average Rentals (Unit)')
+# st.pyplot(plt)
+
+# By Season
+st.subheader('Average Rentals by Season')
+season_avg_rentals = by_season(filtered_day_df)  # Menggunakan data yang sudah difilter
+plt.figure(figsize=(12, 7))
+
+max_value = season_avg_rentals['cnt'].max()
+colors = ['blue' if x == max_value else 'gray' for x in season_avg_rentals['cnt']]
+
+plt.bar(season_avg_rentals['season_desc'], season_avg_rentals['cnt'], color=colors)
+plt.xlabel('Season')
+plt.ylabel('Average Rentals (Unit)')
 st.pyplot(plt)
