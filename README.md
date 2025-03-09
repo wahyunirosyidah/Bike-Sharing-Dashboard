@@ -12,7 +12,7 @@ This project provides a Bike Sharing Dashboard that visualizes and analyzes bike
 ✅ Rentals by Time Category – Classifies rentals into Late Night, Morning, Afternoon, Evening, and Night.
 ✅ Seasonal Trends – Shows rental trends across different seasons.
 
-## Dataset
+## 📂 Dataset
 The project uses the Bike Sharing Dataset, which contains:
 - Hourly Data (hour.csv)
 - Daily Data (day.csv)
