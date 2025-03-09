@@ -6,10 +6,15 @@ This project provides a Bike Sharing Dashboard that visualizes and analyzes bike
 
 ## ✨ Features
 ✅ Total Rentals Analysis – Displays total bike rentals within a selected time range.
+
 ✅ Peak vs. Off-Peak Hours – Categorizes hours into Peak, Off-Peak, and Normal based on rental frequency.
+
 ✅ Working Day & Holiday Analysis – Analyzes rentals on working days, holidays, and non-working non-holidays.
+
 ✅ Rentals by Windspeed – Groups rentals based on different windspeed levels.
+
 ✅ Rentals by Time Category – Classifies rentals into Late Night, Morning, Afternoon, Evening, and Night.
+
 ✅ Seasonal Trends – Shows rental trends across different seasons.
 
 ## 📂 Dataset
@@ -47,8 +52,11 @@ You can access the live dashboard here:
 
 ## Results & Insights
 📌 Peak Hours: Rentals are highest during morning and evening rush hours.
+
 📌 Seasonal Trends: Fall and Summer have the highest rentals, while Winter has the lowest.
+
 📌 Weather Impact: Rentals decrease as windspeed increases.
+
 📌 Working Days vs. Holidays: Rentals are higher on working days compared to holidays.
 
 ## 📸 Screenshots
