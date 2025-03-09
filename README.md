@@ -2,7 +2,9 @@
 
 ## 📌 Project Overview
 
-This project provides a Bike Sharing Dashboard that visualizes and analyzes bike rental patterns based on various factors such as time, season, working days, and weather conditions. The dashboard is built using Streamlit, Pandas, Seaborn, and Matplotlib.
+This Bike Sharing Dashboard is designed to visualize and analyze bike rental patterns based on various factors such as time, season, working days, and weather conditions. Built using Streamlit, Pandas, Seaborn, and Matplotlib, the dashboard provides an interactive and insightful way to explore trends in bike usage.
+
+This project is part of my learning journey in Belajar Analisis Data dengan Python from Dicoding. As part of the course, I was tasked with developing a comprehensive data analysis project, where I applied data wrangling, exploratory data analysis (EDA), and data visualization techniques to extract meaningful insights from the dataset. Through this project, I enhanced my ability to process real-world data, identify trends, and present findings effectively using Python.
 
 ## ✨ Features
 ✅ Total Rentals Analysis – Displays total bike rentals within a selected time range.
